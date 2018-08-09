@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+	{% block title %} katastrofffe.com | {{ post.title }} {% endblock %}
+	{% block page_description %}{{ post.preview }}{% endblock %}
+    {% block page_keywords %}{{ post.keywords }}{% endblock %}
+    {% block css %}
+        <link rel="stylesheet" type="text/css" href="{% static 'bundle/post.css' %}" >
+    {% endblock %}
+
+    {% block page_title %}
+    {% endblock %}
+
+    {% block body_class_name %}{% endblock %}
+
+	{% block content %}
+
+    <div class="container-justified post-container">
+        <div class="post-media" id="media-gallery">
+            {% if post_media %}
+                {% for media in post_media %}
+                    <div class="item" data-src="{{ media.media.url }}">
+                        <img src="{{ media.media.url }}">
+                    </div>
+                {% endfor %}
+            {% else %}
+                No media in this post
+            {% endif %}
+        </div>
+        <div class="post-content">
+            <div class="post-title">
+                <h1 class="post-title">{{ post.title }}</h1>
+            </div>
+            <div>
+                {{ post.content }}
+            </div>
+
+            {% if post.tags %}
+                <div class="thumb-tags">
+                    {% for tag in post.tags.all %}
+                        <span><a href="/portfolio/filter/tag/{{ tag.name }}/">{{ tag.name }}</a></span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    {% endblock %}
+
+    {% block scripts %}
+        <script src="{% static 'bundle/post.bundle.js' %}"></script>
+    {% endblock %}

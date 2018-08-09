@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}About{% endblock %}
+{% block page_description %}katastrofffe.com | About{% endblock %}
+{% block page_keywords %}{{ config.SITE_KEYWORDS }}{% endblock %}
+
+{% block body_class_name %}{% endblock %}
+
+{% block page_title %}
+{% endblock %}
+
+{% block content %}
+
+<div class="container-justified about">
+    <div class="post-media">
+        <div class="item">
+            <img src="{% static 'images/wgjeru8LGrRW.jpg' %}" width="">
+        </div>
+    </div>
+    <div class="post-content">
+        <div class="post-title">
+            <h1 class="post-title">ABOUT</h1>
+        </div>
+        <div>
+            {{ config.ABOUT|safe }}
+        </div>
+    </div>
+</div>
+{% endblock %}

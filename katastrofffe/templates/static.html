@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> Katastrofffe </title>
+    <meta name="description" content=" ridiculously spectacular ">
+    <meta name="keywords" content="  ">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale = 1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <link rel="stylesheet" type="text/css" href="/static/bundle/styles.css" >
+    <link rel="stylesheet" type="text/css" href="/static/bundle/dev.css" >
+
+    <style>
+        .grid-item {
+            display: inline;
+        }
+
+        .grid-item--width2 {
+            display: inline;
+        }
+
+        .grid.grid-initial-state {
+          opacity: 0;
+        }
+
+        .grid-item {
+          float: left;
+        }
+
+        .grid-item img {
+          display: block;
+          max-width: 100%;
+        }
+
+
+        .grid-load-status {
+          display: none; /* hidden by default */
+          padding-top: 20px;
+          border-top: 1px solid #DDD;
+          text-align: center;
+          color: #777;
+        }
+
+    </style>
+</head>
+<body class="index">
+<header>
+    <div class="container-justified">
+        <div class="navigation">
+            <div class="menu-item">
+                <a href="/about/" class="nav-link">
+                    <span class="base-span">About</span><span class="double-span">About</span>
+                </a>
+            </div><div class="menu-item">
+                <a href="/contact/" class="nav-link">
+                    <span class="base-span">Contact</span><span class="double-span">Contact</span>
+                </a>
+            </div>
+	    </div>
+
+        <div class="logo">
+            <div class="menu-item">
+            <a href="/" class="nav-link">
+                <span class="base-span">KATASTROFFFE</span><span class="double-span">KATASTROFFFE</span>
+            </a>
+            </div>
+        </div>
+
+        <a href="https://www.instagram.com/katastrofffe/" class="instagram-icon" title="Follow on instagram"><img src="/static/images/instagram-icon.svg" alt="instagram"></a>
+
+    </div>
+</header>
+
+
+    <div class="container-justified categories-navigation">
+        <div class="categories-navigation-inner">
+
+            <div class="menu-item"><a href="/portfolio/35mm/">35mm</a></div>
+
+            <div class="menu-item"><a href="/portfolio/black-and-white/">black and white</a></div>
+
+            <div class="menu-item"><a href="/portfolio/street-art-project/">street art project</a></div>
+
+        </div>
+    </div>
+
+
+
+    <div class="container-justified">
+
+
+        <div class="grid grid-initial-state">
+
+            {% if posts %}
+    {% for post in posts %}
+    <div class="grid-item {% if post.enlarged_thumbnail_size %}grid-item--width2{% endif %}">
+        <div class="grid-item-content">
+            <!--<a class="post-link" href="{{ post.post_link }}">-->
+
+                        {% with post_media=post.get_post_media %}
+
+                            {% if post_media|length > 1 %}
+                                <div class="owl-carousel-container">
+                                    <div class="owl-carousel owl-theme">
+                                        {% for media in post_media %}
+                                            <div class="owl-image-container">
+                                                {% if media.media_medium %}
+                                                    <img alt="{{ post.title }}" src=" {{ media.media_medium.url }}">
+                                                {% else %}
+                                                    <img alt="{{ post.title }}" src=" {{ media.media.url }}">
+                                                {% endif %}
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% else %}
+                                {% with post_media|first as media %}
+                                    {% if media.media_medium %}
+                                        <img alt="{{ post.title }}" src=" {{ media.media_medium.url }}">
+                                    {% else %}
+                                        <img alt="{{ post.title }}" src=" {{ media.media.url }}">
+                                    {% endif %}
+                                {% endwith %}
+                            {% endif %}
+
+                        {% endwith %}
+
+                <div class="post-thumb-content">
+                    <span>{{ post.preview }}</span>
+                </div>
+
+            <!--</a>-->
+
+            {% if post.tags %}
+            <div class="thumb-tags">
+                {% for tag in post.tags.all %}
+                    <span><a href="/portfolio/filter/tag/{{ tag.name }}/">{{ tag.name }}</a></span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+{% endif %}
+        </div>
+        <div class="grid-load-status">
+              <p class="infinite-scroll-request">Loading...</p>
+              <p class="infinite-scroll-last">No more pages to load</p>
+              <p class="infinite-scroll-error">No more pages to load</p>
+            </div>
+    </div>
+
+    <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+<script src="https://unpkg.com/infinite-scroll@3/dist/infinite-scroll.pkgd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+
+<script>
+$(document).ready(function(){
+    function owl_carousel() {
+        var owl = $('.owl-carousel');
+
+        owl.each(function () {
+            $(this).owlCarousel({
+                items: 1,
+//                autoHeight: true,
+                onInitialized: callback
+            });
+
+            $(this).on('translated.owl.carousel', function(event) {
+                $grid.masonry('reloadItems');
+                $grid.masonry('layout');
+                $(this).scrollTop();
+
+                console.log('changed');
+            });
+        });
+
+        function callback(event) {
+            var items = event.item.count;
+            if (items <= 1) {
+                this.settings.loop = false;
+                this.settings.nav = false;
+                this.settings.dots = false;
+                this.settings.mouseDrag = false;
+                this.settings.touchDrag = false;
+                this.settings.pullDrag = false;
+            } else {
+                this.settings.loop = true;
+                this.settings.nav = true;
+                this.settings.dots = true;
+
+                var h = 0;
+                $(event.target).find(".owl-image-container").each(function () {
+                    if ($(this).outerHeight() > h) {
+                        h = $(this).outerHeight();
+                    }
+                });
+
+                $(event.target).find(".owl-image-container").each(function () {
+                    $(this).css({'height':h, 'display':'flex', 'align-items':'center', 'background-color':'#030303'});
+                });
+            }
+        }
+    }
+
+    var $grid = $('.grid').masonry({
+        itemSelector: 'none',
+        columnWidth: 320,
+        gutter: 0,
+        fitWidth: true,
+    });
+
+    var msnry = $grid.data('masonry');
+
+    $grid.imagesLoaded( function() {
+        owl_carousel();
+        $grid.removeClass('grid-initial-state');
+        $grid.masonry('option', { itemSelector: '.grid-item' });
+        var $items = $grid.find('.grid-item');
+        $grid.masonry('appended', $items );
+    });
+
+    var pages_count = {{pages_count}};
+    $grid.infiniteScroll({
+        path: function() {
+            if ( this.loadCount < pages_count ) {
+                var page_number = this.loadCount + 2;
+                return '/portfolio/filter/page/' + page_number + '/';
+            }
+        },
+        append: '.grid-item',
+        outlayer: msnry,
+        status: '.grid-load-status',
+        history: false,
+        loadOnScroll: true
+    });
+
+    $grid.on('append.infiniteScroll', function( event, response, path, items ) {
+        var $new_items = $(items);
+        $new_items.imagesLoaded(function(){
+            owl_carousel();
+            $grid.masonry('option', { itemSelector: '.grid-item' });
+            $grid.append($new_items).masonry( 'appended', $new_items );
+
+            $(window).trigger('resize');
+        });
+    });
+
+    $(window).resize(function () {
+        $grid.masonry('reloadItems');
+        $grid.masonry('layout');
+    });
+});
+</script>
+</body>
+</html>

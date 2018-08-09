@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}katastrofffe.com | Portfolio{% endblock %}
+{% block page_description %}katastrofffe.com | Portfolio{% endblock %}
+{% block page_keywords %}portfolio {{ config.SITE_KEYWORDS }}{% endblock %}
+
+{% block page_title %}PORTFOLIO{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="categories-list">
+        {% if categories %}
+            {% for category in categories %}
+                <a href="{{ category.slug }}/" class="category">
+                    <img alt="{{ category.name }}" src="{{ category.thumbnail.url}}">
+                    {{ category.name }}
+                </a>
+            {% endfor %}
+        {% endif %}
+        </div>
+    </div>
+{% endblock content %}

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}{{ config.SITE_TITLE }}{% endblock %}
+{% block page_description %}{{ config.SITE_DESCRIPTION }}{% endblock %}
+{% block page_keywords %}{{ config.SITE_KEYWORDS }}{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'bundle/styles.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'bundle/index.css' %}">
+{% endblock %}
+
+{% if categories %}
+{% block page_title_container %}
+    <div class="container-justified categories-navigation">
+        <div class="categories-navigation-inner">
+            {% for category in categories %}
+            <div class="menu-item"><a href="/portfolio/{{ category.slug }}/">{{ category.name }}</a></div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+{% endif %}
+
+{% block content %}
+    <div class="container-justified">
+        <div class="grid grid-initial-state">
+            {{posts_template|safe}}
+        </div>
+        <div class="grid-load-status">
+            <p class="infinite-scroll-request">Loading...</p>
+            <p class="infinite-scroll-last">No more pages to load</p>
+            <p class="infinite-scroll-error">No more pages to load</p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        var pages_count = {{pages_count}};
+    </script>
+    <script src="{% static 'bundle/index.bundle.js' %}"></script>
+{% endblock %}

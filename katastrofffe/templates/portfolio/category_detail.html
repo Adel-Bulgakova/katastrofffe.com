@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+	{% block title %}katastrofffe.com | {{ category.name }}{% endblock %}
+	{% block page_description %}katastrofffe.com | {{ category.name }}{% endblock %}
+    {% block page_keywords %}{{ category.name }} {{ config.SITE_KEYWORDS }}{% endblock %}
+    {% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'bundle/styles.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'bundle/index.css' %}">
+    {% endblock %}
+    {% block page_title %}{{category.name}}{% if category.children.all %}->{% for i in category.children.all %}<a href="{{ i.slug }}/"> {{ i.name }} </a><br>{% endfor %}{% endif %}<br><br>{% if not posts %}No posts by tag: {{ category.name }}{% endif %}{% endblock %}
+{% block content %}
+    <div class="container-justified">
+        <div class="grid grid-initial-state">
+             {{posts_template|safe}}
+        </div>
+        <div class="grid-load-status">
+            <p class="infinite-scroll-request">Loading...</p>
+            <p class="infinite-scroll-last">No more pages to load</p>
+            <p class="infinite-scroll-error">No more pages to load</p>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script>
+        var pages_count = {{pages_count}};
+        var category = '{{category.slug}}';
+    </script>
+    <script src="{% static 'bundle/index.bundle.js' %}"></script>
+{% endblock %}

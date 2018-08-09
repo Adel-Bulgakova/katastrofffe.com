@@ -1,0 +1,46 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}{{ config.SITE_TITLE }}{% endblock %}</title>
+    <meta name="description" content="{% block page_description %}{{ config.SITE_DESCRIPTION }}{% endblock %}">
+    <meta name="keywords" content="{% block page_keywords %}{{ config.SITE_KEYWORDS }}{% endblock %}">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport">
+    {% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'bundle/index.css' %}">
+    {% endblock %}
+</head>
+<body class="{% block body_class_name %}index{% endblock %}">
+<header>
+    <div class="container-justified">
+        <div class="navigation">
+            <div class="menu-item">
+                <a href="/about/" class="nav-link">
+                    <span class="base-span">About</span><span class="double-span">About</span>
+                </a>
+            </div><div class="menu-item">
+                <a href="/contact/" class="nav-link">
+                    <span class="base-span">Contact</span><span class="double-span">Contact</span>
+                </a>
+            </div>
+	    </div>
+        <div class="logo">
+            <div class="menu-item">
+            <a href="/" class="nav-link">
+                <span class="base-span">KATASTROFFFE</span><span class="double-span">KATASTROFFFE</span>
+            </a>
+            </div>
+        </div>
+        <a href="https://www.instagram.com/katastrofffe/" class="instagram-icon" title="Follow on instagram"><img src="{% static 'images/instagram-icon.svg' %}" alt="instagram"></a>
+    </div>
+</header>
+{% block page_title_container %}
+    <div class="container">
+        <div class="page-title"><h1>{% block page_title %}{% endblock %}</h1></div>
+    </div>
+{% endblock %}
+{% block content %}{% endblock %}
+{% block scripts %}{% endblock %}
+</body>
+</html>

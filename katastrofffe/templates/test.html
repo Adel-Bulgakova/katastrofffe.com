@@ -1,0 +1,194 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}{{ config.SITE_TITLE }}{% endblock %}</title>
+    <meta name="description" content="{% block page_description %}{{ config.SITE_DESCRIPTION }}{% endblock %}">
+    <meta name="keywords" content="{% block page_keywords %}{{ config.SITE_KEYWORDS }}{% endblock %}">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'bundle/styles.css' %}" >
+    <link rel="stylesheet" type="text/css" href="{% static 'bundle/dev.css' %}" >
+
+    <style>
+
+        .owl-theme .owl-dots,.owl-theme .owl-nav{
+            text-align:center;
+            -webkit-tap-highlight-color:transparent
+        }
+
+        .owl-theme .owl-nav [class*=owl-]{
+            display:inline-block;
+            cursor:pointer;
+        }
+
+        .owl-theme .owl-nav [class*=owl-]:hover{
+            text-decoration:none
+        }
+
+
+        .owl-theme .owl-dots .owl-dot{
+            display: inline-block;
+            zoom: 1;
+            outline: none;
+        }
+
+        .owl-theme .owl-dots .owl-dot span{
+            width: 6px;
+            height: 6px;
+            margin: 0 3px;
+            background: #fff;
+            opacity: 0.5;
+            display: block;
+            -webkit-backface-visibility: visible;
+            transition: opacity .5s ease;
+            border-radius: 30px
+        }
+
+        .owl-theme .owl-dots .owl-dot.active span,.owl-theme .owl-dots .owl-dot:hover span{
+            background: #fff;
+            opacity: 1;
+        }
+
+
+        .grid {
+            padding: 50px;
+        }
+        .grid-item {
+            margin-bottom: 20px;
+        }
+
+        .owl-carousel-container {
+            /*background-color: #9c9c9c;*/
+        }
+
+        .owl-carousel .owl-item img {
+            margin-bottom: 0;
+        }
+
+        .owl-carousel-container:hover .owl-carousel .owl-nav button.owl-prev, .owl-carousel-container:hover .owl-carousel .owl-nav button.owl-next  {
+            transition:opacity .5s ease;
+            opacity: 0.5;
+        }
+
+        .owl-carousel .owl-nav button.owl-prev {
+            position: absolute;
+            top: 50%;
+            left: 10px;
+
+            opacity: 0;
+            background-color: #fff;
+            width: 20px;
+            height: 20px;
+            margin: 0;
+            border-radius: 50%;
+            outline: none;
+        }
+
+        .owl-carousel .owl-nav button.owl-next {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+
+            opacity: 0;
+            background-color: #fff;
+            width: 20px;
+            height: 20px;
+            margin: 0;
+            border-radius: 50%;
+            outline: none;
+        }
+
+        .owl-carousel-container:hover .owl-carousel .owl-nav button.owl-prev:hover, .owl-carousel-container:hover .owl-carousel .owl-nav button.owl-next:hover{
+            transition:opacity .5s ease;
+            opacity: 0.8;
+            background-color: #fff;
+            color: inherit;
+        }
+
+        .owl-theme .owl-dots {
+            position: absolute;
+            width: 100%;
+            bottom: 5px;
+        }
+
+
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            var owl = $('.owl-carousel');
+          owl.owlCarousel({
+              loop:true,
+              nav:true,
+              items:1,
+              autoHeight:true,
+//              onInitialized: callback,
+
+          });
+          function callback(event) {
+            var items = event.item.count;
+            console.log(items);
+            if (items <= 1) {
+                this.settings.loop = false;
+                this.settings.nav = false;
+                this.settings.dots = false;
+                $('.owl-carousel .owl-stage').addClass("single");
+                console.log("single");
+            } else {
+                this.settings.loop = true;
+                this.settings.nav = true;
+                this.settings.dots = true;
+            }
+          }
+
+        });
+    </script>
+
+</head>
+<body>
+
+   <div class="container-justified">
+        <div class="grid">
+             {% if posts %}
+                {% for post in posts %}
+
+
+                    <div class="grid-item {% if post.enlarged_thumbnail_size %} grid-item--width2 {% endif %}">
+                        <div class="grid-item-content">
+                            <!--<a class="post-link" href="{{ post.post_link }}">-->
+
+                            <div class="owl-carousel-container">
+                                <div class="owl-carousel owl-theme">
+
+                                    <img alt="{{ post.title }}" src="{{ post.thumbnail.url }}">
+                                    <img alt="{{ post.title }}" src="https://katastrofffe.s3.amazonaws.com/media/categories/posts/thumbnails/ZAjB9RAyWzeh.jpg">
+                                    <img alt="{{ post.title }}" src="{{ post.thumbnail.url }}">
+                                </div>
+                            </div>
+                                <div class="post-thumb-content">
+                                    <span>{{ post.preview }}</span>
+                                </div>
+
+                            <!--</a>-->
+
+                        {% if post.tags %}
+                            <div class="thumb-tags">
+                                {% for tag in post.tags.all %}
+                                    <span><a href="/portfolio/filter/tag/{{ tag.name }}/">{{ tag.name }}</a></span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+    </div>
+
+</body>
+</html>

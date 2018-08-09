@@ -1,0 +1,47 @@
+{% if posts %}
+    {% for post in posts %}
+    <div class="grid-item {% if post.enlarged_thumbnail_size %}grid-item--width2{% endif %}">
+        <div class="grid-item-content">
+            <!--<a class="post-link" href="{{ post.post_link }}">-->
+            {% with post_media=post.get_post_media %}
+                {% if post_media|length > 1 %}
+                    <div class="owl-carousel-container">
+                        <div class="owl-carousel owl-theme">
+                            {% for media in post_media %}
+                                <div class="owl-image-container">
+                                    {% if media.media_medium %}
+                                        <img alt="{{ post.title }}" src=" {{ media.media_medium.url }}">
+                                    {% else %}
+                                        <img alt="{{ post.title }}" src=" {{ media.media.url }}">
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% else %}
+                    {% with post_media|first as media %}
+                        {% if media.media_medium %}
+                            <img alt="{{ post.title }}" src=" {{ media.media_medium.url }}">
+                        {% else %}
+                            <img alt="{{ post.title }}" src=" {{ media.media.url }}">
+                        {% endif %}
+                    {% endwith %}
+                {% endif %}
+            {% endwith %}
+            {% if post.preview  %}
+                <div class="post-thumb-content">
+                    <span>{{ post.preview }}</span>
+                </div>
+            {% endif %}
+            <!--</a>-->
+            {% if post.tags %}
+                <div class="thumb-tags">
+                    {% for tag in post.tags.all %}
+                        <span><a href="/portfolio/filter/tag/{{ tag.name }}/">{{ tag.name }}</a></span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+{% endif %}
