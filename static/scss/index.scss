@@ -425,6 +425,11 @@ body.index .navigation{
             max-width: 100%;
             margin-bottom: 40px;
         }
+
+        .post-content {
+            position: static;
+            width: 100%;
+        }
     }
 }
 

@@ -6,7 +6,8 @@
     <meta name="description" content="{% block page_description %}{{ config.SITE_DESCRIPTION }}{% endblock %}">
     <meta name="keywords" content="{% block page_keywords %}{{ config.SITE_KEYWORDS }}{% endblock %}">
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="viewport" content="width=device-width" />
     {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'bundle/index.css' %}">
     {% endblock %}
