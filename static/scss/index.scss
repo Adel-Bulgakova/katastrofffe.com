@@ -7,7 +7,6 @@ $sm-padding: 15px;
 $xs-padding: 10px; //Extra small screens
 $lg-padding: 50px;
 $form-border-color: #000;
-//$base_bg_color: rgba(255, 231, 231, 1);
 $base_bg_color: #fff;
 
 @font-face {
@@ -67,6 +66,7 @@ header {
     left: 0;
     right: 0;
     z-index: 2;
+    background-color: $base_bg_color;
     font-weight: 600;
     font-size: 24px;
     a {
@@ -90,10 +90,6 @@ header {
             padding-left: 0;
         }
     }
-}
-
-body.index .navigation{
-    background-color: $base_bg_color;
 }
 
 .nav-link {
