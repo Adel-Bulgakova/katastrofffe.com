@@ -1,23 +1,27 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 
-{% block title %}katastrofffe.com | Portfolio{% endblock %}
-{% block page_description %}katastrofffe.com | Portfolio{% endblock %}
+{% block title %}Katastrofffe | Portfolio{% endblock %}
+{% block page_description %}Katastrofffe | Portfolio{% endblock %}
 {% block page_keywords %}portfolio {{ config.SITE_KEYWORDS }}{% endblock %}
 
 {% block page_title %}PORTFOLIO{% endblock %}
 
 {% block content %}
-    <div class="container">
-        <div class="categories-list">
+    <div class="container-justified">
         {% if categories %}
+        <div class="objects-list">
             {% for category in categories %}
-                <a href="{{ category.slug }}/" class="category">
+                <a href="/portfolio/{{ category.slug }}/" class="object-container">
+                    {% if category.thumbnail %}
                     <img alt="{{ category.name }}" src="{{ category.thumbnail.url}}">
-                    {{ category.name }}
+                    {% else %}
+                    <img src="{{ request.scheme }}://{{ request.get_host }}{% static 'images/wgjeru8LGrRW.jpg' %}" alt="{{ event.title }}">
+                    {% endif %}
+                    <div class="object-title">{{ category.name }}</div>
                 </a>
             {% endfor %}
-        {% endif %}
         </div>
+        {% endif %}
     </div>
 {% endblock content %}

@@ -14,11 +14,11 @@ class PostMediaInline(admin.TabularInline):
 class PostAdmin(admin.ModelAdmin):
     fields = (
         'post_thumbnail', 'thumbnail', 'enlarged_thumbnail_size', 'slug', 'title', 'preview', 'content', 'keywords',
-        'tags', 'category', 'created_date', 'published_date', 'is_published')
+        'tags', 'category', 'created_date', 'published_date', 'is_published', 'show_post_detail')
 
     readonly_fields = ('post_thumbnail',)
     inlines = [PostMediaInline]
-    list_display = ('slug', 'title', 'category', 'published_date', 'is_published')
+    list_display = ('slug', 'title', 'category', 'published_date', 'is_published', 'show_post_detail')
 
 
 class CategoryAdmin(MPTTModelAdmin):

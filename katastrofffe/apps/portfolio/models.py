@@ -61,6 +61,11 @@ class PostsManager(models.Manager):
     def published(self, **kwargs):
         return self.filter(is_published=True, **kwargs).order_by('-created_date')
 
+    def published_on_index_page(self, **kwargs):
+        inactive_categories = ['35mm', 'polaroid']
+        index_page_inactive_categories = Category.objects.filter(slug__in=inactive_categories)
+        return self.filter(is_published=True, **kwargs).exclude(category__in=index_page_inactive_categories).order_by('-created_date')
+
 
 class Post(models.Model):
     thumbnail = models.ImageField(
@@ -112,13 +117,14 @@ class Post(models.Model):
         default="",
     )
 
-    category = TreeForeignKey('Category',null=True, blank=True)
+    category = TreeForeignKey('Category', null=True, blank=True)
 
     tags = TaggableManager(blank=True)
 
     created_date = models.DateField(default=timezone.now)
     published_date = models.DateField(default=timezone.now)
     is_published = models.BooleanField(default=True)
+    show_post_detail = models.BooleanField(default=False)
 
     objects = PostsManager()
 
@@ -209,7 +215,7 @@ class Post(models.Model):
 
 class CategoryManager(models.Manager):
     def published(self, **kwargs):
-        return self.filter(is_published=True, **kwargs).order_by('-published_date')
+        return self.filter(is_published=True, **kwargs).order_by('published_date')
 
 
 class Category(MPTTModel):
@@ -375,7 +381,8 @@ class PostMediaData(models.Model):
     video_link = models.CharField(
         u"Link on video",
         max_length=500,
-        blank=True
+        blank=True,
+        null=True
     )
 
     is_published = models.BooleanField(default=True)
@@ -451,7 +458,8 @@ class PostMediaData(models.Model):
         file_size = get_file_size(self.media)
         file_size2 = self.media.size
         dimension = "%sx%s" % (self.media.width, self.media.height)
-        return "%s\n%s\n%s" % (file_size2, file_size, dimension)
+        # return "%s\n%s\n%s" % (file_size2, file_size, dimension)
+        return "%s\n%s" % (file_size, dimension)
 
     def medium_file_info(self):
         file_size = get_file_size(self.media_medium)

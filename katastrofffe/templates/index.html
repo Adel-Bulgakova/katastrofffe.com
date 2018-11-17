@@ -23,6 +23,14 @@
 {% endif %}
 
 {% block content %}
+    {% if banners %}
+        <div class="container">
+            {% for banner in banners %}
+            <a href="/events/{{ banner.slug }}/" class="banner">{{ banner.title }}<br><br><span class="event-dates">{{ banner.start_date }} - {{ banner.end_date }}</span></a>
+            {% endfor %}
+        </div>
+    {% endif %}
+
     <div class="container-justified">
         <div class="grid grid-initial-state">
             {{posts_template|safe}}

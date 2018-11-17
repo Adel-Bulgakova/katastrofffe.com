@@ -6,7 +6,27 @@
 {% block page_keywords %} {{ config.SITE_KEYWORDS }} {% endblock %}
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'bundle/styles.css' %}" >
-    <link rel="stylesheet" type="text/css" href="{% static 'bundle/dev.css' %}" >
+    <link rel="stylesheet" type="text/css" href="{% static 'bundle/index.css' %}" >
+
+    <style>
+        .banner {
+            display: block;
+            box-sizing: border-box;
+            width: 100%;
+            margin-bottom: 25px;
+            padding: 25px;
+            text-align: center;
+            text-decoration: none;
+            color: #000;
+
+            border: 3px solid #0b354b;
+        }
+
+        .banner:hover{
+            border: 3px solid #eb4257;
+        }
+
+    </style>
 {% endblock %}
 
 {% if categories %}
@@ -22,6 +42,15 @@
 {% endif %}
 
 {% block content %}
+
+    {% if banners %}
+        <div class="container">
+            {% for banner in banners %}
+            <a href="/events/{{ banner.slug }}/" class="banner">{{ banner.title }}<br><br><span class="event-dates">{{ banner.start_date }} - {{ banner.end_date }}</span></a>
+            {% endfor %}
+        </div>
+    {% endif %}
+
     <div class="container-justified">
         <div class="grid grid-initial-state">
             {{posts_template|safe}}

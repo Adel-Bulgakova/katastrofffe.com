@@ -30,8 +30,10 @@ function owl_carousel() {
     });
 
     function callback(event) {
-        var items = event.item.count;
-        if (items <= 1) {
+        var items_count = event.item.count;
+        console.log(items_count);
+        if (items_count <= 1) {
+            this.settings.items = 1;
             this.settings.loop = false;
             this.settings.nav = false;
             this.settings.dots = false;
@@ -39,6 +41,7 @@ function owl_carousel() {
             this.settings.touchDrag = false;
             this.settings.pullDrag = false;
         } else {
+            this.settings.items = 1;
             this.settings.loop = true;
             this.settings.nav = true;
             this.settings.dots = true;
@@ -55,7 +58,7 @@ function owl_carousel() {
                     'height': h,
                     'display': 'flex',
                     'align-items': 'center',
-                    'background-color': '#030303'
+                    'background-color': '#fff'
                 });
             });
         }

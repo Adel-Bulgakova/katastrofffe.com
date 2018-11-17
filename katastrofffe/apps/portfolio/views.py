@@ -26,7 +26,8 @@ def get_pages_count(filter_name='', filter_data=''):
         posts_count = len(Post.objects.published().filter(category=category))
 
     else:
-        posts_count = len(Post.objects.published().all())
+        # posts_count = len(Post.objects.published().all())
+        posts_count = len(Post.objects.published_on_index_page().all())
 
     pages_count = int(math.ceil(posts_count/posts_on_page_count) + 1)
     return pages_count
@@ -48,13 +49,17 @@ def filter_posts(page_number=1, filter_name='', filter_data=''):
             pages_count = get_pages_count(filter_name='tag', filter_data=filter_data)
             response.update({'pages_count': pages_count})
             response.update({'tag_name': filter_data})
+
         elif filter_name == 'category':
             category = Category.objects.get(slug=filter_data)
             posts = Post.objects.published().filter(category=category)[slice_from:slice_to]
+
         else:
             pages_count = get_pages_count()
             response.update({'pages_count': pages_count})
-            posts = Post.objects.published().all()[slice_from:slice_to]
+            # posts = Post.objects.published().all()[slice_from:slice_to]
+            posts = Post.objects.published_on_index_page().all()[slice_from:slice_to]
+
     finally:
         response.update({'posts': posts})
 
@@ -67,7 +72,7 @@ def filter_posts(page_number=1, filter_name='', filter_data=''):
 def show_category(request, hierarchy=None):
     category_slug = hierarchy.split('/')
     parent = None
-    root = Category.objects.all()
+    root = Category.objects.published()
 
     for slug in category_slug[:-1]:
         try:
@@ -78,9 +83,9 @@ def show_category(request, hierarchy=None):
     try:
         instance = Category.objects.get(parent=parent, slug=category_slug[-1])
     except:
-        slug = category_slug[-1]
+        post_slug = category_slug[-1]
         try:
-            instance = Post.objects.get(slug=slug)
+            instance = Post.objects.get(slug=post_slug)
             post_media = instance.get_post_media
             return render(request, 'portfolio/post_detail.html', {'post': instance, 'post_media': post_media})
         except:

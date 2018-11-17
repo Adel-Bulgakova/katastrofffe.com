@@ -40,10 +40,14 @@ handler500 = views.error500
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^portfolio/', include('portfolio.urls')),
+    url(r'^events/',include('event.urls')),
     url(r'^about/', views.about, name='about'),
     url(r'^contact/', include('contact.urls')),
+    url(r'^privacy_policy/',  views.privacy_policy, name='privacy_policy'),
+    url(r'^terms_of_service/',  views.terms_of_service, name='terms_of_service'),
     url(r'^test/', views.test, name='test'),
     url(r'^dev/', views.dev, name='dev'),
+    url(r'^googleb758d0ca397ee06d.html', views.google_verification, name='google_verification'),
     url(r'', views.index_page, name='index'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT, show_indexes=True)
 

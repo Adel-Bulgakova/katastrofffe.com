@@ -1,13 +1,29 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
-	{% block title %}katastrofffe.com | {{ category.name }}{% endblock %}
-	{% block page_description %}katastrofffe.com | {{ category.name }}{% endblock %}
+	{% block title %}Katastrofffe | {{ category.name }}{% endblock %}
+	{% block page_description %}Katastrofffe | {{ category.name }}{% endblock %}
     {% block page_keywords %}{{ category.name }} {{ config.SITE_KEYWORDS }}{% endblock %}
     {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'bundle/styles.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'bundle/index.css' %}">
     {% endblock %}
-    {% block page_title %}{{category.name}}{% if category.children.all %}->{% for i in category.children.all %}<a href="{{ i.slug }}/"> {{ i.name }} </a><br>{% endfor %}{% endif %}<br><br>{% if not posts %}No posts by tag: {{ category.name }}{% endif %}{% endblock %}
+
+    {% if categories %}
+    {% block page_title_container %}
+        <div class="container-justified categories-navigation">
+            <div class="categories-navigation-inner">
+                {% for category in categories %}
+                <div class="menu-item"><a href="/portfolio/{{ category.slug }}/">{{ category.name }}</a></div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="container-justified">
+            <div class="page-title" style="padding: 25px 0"><h1>{{category.name}}{% if category.children.all %}->{% for i in category.children.all %}<a href="{{ i.slug }}/"> {{ i.name }} </a><br>{% endfor %}{% endif %}<br><br>{% if not posts %}No posts in category: {{ category.name }}{% endif %}</h1></div>
+        </div>
+    {% endblock %}
+    {% endif %}
+
 {% block content %}
     <div class="container-justified">
         <div class="grid grid-initial-state">
