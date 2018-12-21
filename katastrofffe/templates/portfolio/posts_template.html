@@ -7,7 +7,7 @@
                     <div class="owl-carousel-container">
                         <div class="owl-carousel owl-theme">
                             {% for media in post_media %}
-                                <div class="owl-image-container" data-video="{{ media.video_link }}">
+                                <div class="owl-image-container">
                                     {% if media.media_medium %}
                                         <img alt="{{ post.title }}" src=" {{ media.media_medium.url }}">
                                     {% else %}
@@ -17,12 +17,22 @@
                             {% endfor %}
                         </div>
                     </div>
+
                 {% else %}
                     {% with post_media|first as media %}
-                        {% if media.media_medium %}
-                            <img alt="{{ post.title }}" src=" {{ media.media_medium.url }}" data-video="{{ media.video_link }}">
+                        {% if media.is_video %}
+                            <div id="media-gallery-{{ forloop.counter0 }} ">
+                                <a href="{{ media.video_link }}" class="item post-thumb-video" data-poster="{{ media.media_medium.url }}" data-video="{{ media.video_link }}">
+                                    <img src="{{ media.media_medium.url }}" alt="{{ post.title }}"/>
+                                    <i class="icon-play"></i>
+                                </a>
+                            </div>
                         {% else %}
-                            <img alt="{{ post.title }}" src=" {{ media.media.url }}">
+                            {% if media.media_medium %}
+                                <img src=" {{ media.media_medium.url }}" alt="{{ post.title }}" >
+                            {% else %}
+                                <img src=" {{ media.media.url }}" alt="{{ post.title }}" >
+                            {% endif %}
                         {% endif %}
                     {% endwith %}
                 {% endif %}

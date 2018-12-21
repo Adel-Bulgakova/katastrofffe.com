@@ -63,7 +63,7 @@ def filter_posts(page_number=1, filter_name='', filter_data=''):
     finally:
         response.update({'posts': posts})
 
-    categories_data = Category.objects.published().filter(parent=None)
+    categories_data = Category.objects.display_on_index_page().filter(parent=None)
     response.update({'categories': categories_data})
 
     return response
@@ -96,7 +96,10 @@ def show_category(request, hierarchy=None):
         posts = Post.objects.published().filter(category=instance)[:slice_to]
         pages_count = get_pages_count(filter_name='category', filter_data=category_slug)
         posts_template = render_to_string('portfolio/posts_template.html', {'posts':posts})
-        return render(request, 'portfolio/category_detail.html', {'category':instance, 'categories': root, 'pages_count': pages_count, 'posts':posts, 'posts_template':posts_template})
+
+        index_page_categories = Category.objects.display_on_index_page()
+
+        return render(request, 'portfolio/category_detail.html', {'category': instance, 'categories': index_page_categories, 'pages_count': pages_count, 'posts':posts, 'posts_template':posts_template})
 
 
 def tag_detail(request, page_number=1, tag_name=''):

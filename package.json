@@ -21,7 +21,7 @@
     "file-loader": "^1.1.11",
     "jquery-bridget": "^2.0.1",
     "mini-css-extract-plugin": "^0.4.0",
-    "node-sass": "^4.9.0",
+    "node-sass": "^4.11.0",
     "path": "^0.12.7",
     "postcss-loader": "^2.1.5",
     "resolve-url-loader": "^2.3.0",
@@ -30,14 +30,16 @@
     "uglifyjs-webpack-plugin": "^1.2.5",
     "webpack": "^4.12.0",
     "webpack-cli": "^3.0.4",
-    "webpack-dev-server": "^3.1.4"
+    "webpack-dev-server": "^3.1.10"
   },
   "dependencies": {
     "imagesloaded": "^4.1.4",
     "infinite-scroll": "^3.0.4",
     "jquery": "^3.3.1",
+    "lg-video": "^1.2.2",
     "lightgallery": "^1.6.11",
     "masonry-layout": "^4.2.1",
-    "owl.carousel": "^2.3.4"
+    "owl.carousel": "^2.3.4",
+    "vimeo-froogaloop2": "git://github.com/tanepiper/vimeo-froogaloop2.git"
   }
 }

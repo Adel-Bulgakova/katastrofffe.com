@@ -9,6 +9,7 @@ var conf = {
     entry: {
         index: './static/js/index.js',
         post: './static/js/post.js',
+        event: './static/js/event.js',
         dev: './static/js/dev.js'
     },
     output: {

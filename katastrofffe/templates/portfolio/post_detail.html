@@ -36,9 +36,16 @@
         <div class="post-media" id="media-gallery">
             {% if post_media %}
                 {% for media in post_media %}
-                    <div class="item" data-src="{{ media.media.url }}">
-                        <img src="{{ media.media.url }}">
-                    </div>
+                    {% if media.is_video %}
+                        <a class="item post-thumb-video" href="{{ media.video_link }}" data-poster="{{ media.media_medium.url }}" data-video="{{ media.video_link }}">
+                            <img src="{{ media.media_medium.url }}" alt="{{ post.title }}">
+                            <i class="icon-play"></i>
+                        </a>
+                    {% else %}
+                        <div class="item" data-src="{{ media.media.url }}">
+                            <img src="{{ media.media.url }}" alt="{{ post.title }}">
+                        </div>
+                    {% endif %}
                 {% endfor %}
             {% else %}
                 No media in this post

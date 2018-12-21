@@ -49,6 +49,40 @@
         </div>
     </div>
 
+    {% if event_media %}
+        <div class="container-justified">
+
+            <div class="page-subtitle">
+                <h2>EVENT REPORT</h2>
+            </div>
+
+            <div class="container-justified">
+                <div class="grid grid-initial-state" id="media-gallery">
+                    {% for event_media_data in event_media %}
+                        {% if event_media_data.media_medium.url %}
+                            <div class="grid-item {% if event_media_data.enlarged_thumbnail_size %}grid-item--width2{% endif %}">
+                                <div class="grid-item-content">
+                                    {% if event_media_data.is_video %}
+                                        <a href="{{ event_media_data.video_link }}" class="item post-thumb-video" data-poster="{{ event_media_data.media_medium.url }}" data-video="{{ event_media_data.video_link }}">
+                                            <img src="{{ event_media_data.media_medium.url }}" alt="{{ event_media_data.media_title }}"/>
+                                            <i class="icon-play"></i>
+                                        </a>
+                                    {% else %}
+                                        {% if event_media_data.media_medium %}
+                                            <img class="item" src="{{ event_media_data.media_medium.url }}" alt="{{ event_media_data.media_title }}" data-src="{{ event_media_data.media_medium.url }}">
+                                        {% else %}
+                                            <img class="item" src="{{ event_media_data.media.url }}" alt="{{ event_media_data.media_title }}" data-src="{{ event_media_data.media_medium.url }}">
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
     {% if other_events %}
         <div class="container-justified">
 
@@ -57,18 +91,26 @@
             </div>
 
             <div class="objects-list">
-                {% for event_data in other_events %}
-                    <a href="/events/{{ event_data.slug }}/" class="object-container">
-                        {% if event_data.thumbnail %}
-                            <img src="{{ event_data.thumbnail.url }}" alt="{{ event.title }}">
+                {% for other_event in other_events %}
+                    <a href="/events/{{ other_event.slug }}/" class="object-container">
+                        {% if other_event.thumbnail %}
+                            <img src="{{ other_event.thumbnail.url }}" alt="{{ other_event.title }}">
                         {% else %}
-                            <img src="{{ request.scheme }}://{{ request.get_host }}{% static 'images/wgjeru8LGrRW.jpg' %}" alt="{{ event.title }}">
+                            <img src="{{ request.scheme }}://{{ request.get_host }}{% static 'images/wgjeru8LGrRW.jpg' %}" alt="{{ other_event.title }}">
                         {% endif %}
-                        <div class="object-title">{{ event_data.title }}</div>
-                        <div class="event-dates">{{ event_data.start_date }} - {{ event_data.end_date }}</div>
+                        <div class="object-title">{{ other_event.title }}</div>
+                        <div class="event-dates">{{ other_event.start_date }} - {{ other_event.end_date }}</div>
                     </a>
                 {% endfor %}
             </div>
         </div>
     {% endif %}
+    {% endblock %}
+
+    {% block scripts %}
+        <script>
+            var pages_count = 100;
+        </script>
+
+        <script src="{% static 'bundle/event.bundle.js' %}"></script>
     {% endblock %}

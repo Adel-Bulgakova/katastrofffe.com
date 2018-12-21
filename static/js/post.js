@@ -1,7 +1,9 @@
 import $ from 'jquery';
 import jQuery from 'jquery';
 
-require('lightgallery');
+import 'vimeo-froogaloop2';
+import 'lightgallery';
+import 'lg-video';
 
 $(document).ready(function() {
     $("#media-gallery").lightGallery({

@@ -2,7 +2,15 @@ import $ from 'jquery';
 import jQuery from 'jquery';
 
 import 'owl.carousel';
+import 'lightgallery/src/sass/lightgallery.scss';
 import '../scss/index.scss';
+// require('vimeo-froogaloop2');
+// require('lg-video');
+// require('lightgallery');
+
+import 'vimeo-froogaloop2';
+import 'lightgallery';
+import 'lg-video';
 
 var jQueryBridget = require( 'jquery-bridget' );
 var Masonry = require( 'masonry-layout' );
@@ -65,6 +73,18 @@ function owl_carousel() {
     }
 }
 
+function lightGallery_init() {
+    $('[id*=media-gallery]').lightGallery({
+        controls: false,
+        closable: true,
+        download: false,
+        fullscreen: true,
+        googlePlus: false,
+        thumbnail: false,
+        selector: '.item'
+    });
+}
+
 var $grid = $('.grid').masonry({
     itemSelector: 'none',
     columnWidth: 320,
@@ -112,6 +132,7 @@ $grid.infiniteScroll({
                 $grid.append($new_items).masonry( 'appended', $new_items );
 
                 $(window).trigger('resize');
+                lightGallery_init();
             });
         });
     }
@@ -120,4 +141,8 @@ $grid.infiniteScroll({
 $(window).resize(function () {
     $grid.masonry('reloadItems');
     $grid.masonry('layout');
+});
+
+$(document).ready(function() {
+    lightGallery_init();
 });

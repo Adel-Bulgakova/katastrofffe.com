@@ -126,6 +126,8 @@ class Post(models.Model):
     is_published = models.BooleanField(default=True)
     show_post_detail = models.BooleanField(default=False)
 
+    is_18_plus = models.BooleanField(default=False)
+
     objects = PostsManager()
 
     __original_image_filename = None
@@ -138,42 +140,43 @@ class Post(models.Model):
         return self.title
 
     def create_resized_images(self, *args, **kwargs):
+
         if self.thumbnail.name != self.__original_image_filename:
-
             image = Image.open(StringIO(self.thumbnail.read()))
-            content_type = self.thumbnail.file.content_type
-            if content_type == 'image/jpeg':
-                pil_type = 'jpeg'
-                file_extension = 'jpg'
-            elif content_type == 'image/png':
-                pil_type = 'png'
-                file_extension = 'png'
+            if hasattr(self.thumbnail.file, 'content_type'):
+                content_type = self.thumbnail.file.content_type
+                if content_type == 'image/jpeg':
+                    pil_type = 'jpeg'
+                    file_extension = 'jpg'
+                elif content_type == 'image/png':
+                    pil_type = 'png'
+                    file_extension = 'png'
 
-            image_random_name = ''.join(random.choice(string.ascii_letters + string.digits) for n in range(12))
+                image_random_name = ''.join(random.choice(string.ascii_letters + string.digits) for n in range(12))
 
-            # Resize original image (640x1280)
-            image.thumbnail((640, 1280), Image.ANTIALIAS)
-            temp_handle_original= StringIO()
-            image.save(temp_handle_original, pil_type, quality=80)
-            temp_handle_original.seek(0)
-            suf_original = SimpleUploadedFile(image_random_name, temp_handle_original.read(), content_type=content_type)
-            self.thumbnail.save(
-                '%s.%s' % (os.path.splitext(suf_original.name)[0], file_extension),
-                suf_original,
-                save=False
-            )
-
-            # Create thumbnail (200x200)
-            image.thumbnail((200, 200), Image.ANTIALIAS)
-            temp_handle_thumb = StringIO()
-            image.save(temp_handle_thumb, pil_type, quality=90)
-            temp_handle_thumb.seek(0)
-            suf = SimpleUploadedFile(image_random_name, temp_handle_thumb.read(), content_type=content_type)
-            self.post_thumb.save(
-                    '%s_200x200.%s' % (os.path.splitext(suf.name)[0], file_extension),
-                    suf,
+                # Resize original image (640x1280)
+                image.thumbnail((640, 1280), Image.ANTIALIAS)
+                temp_handle_original= StringIO()
+                image.save(temp_handle_original, pil_type, quality=80)
+                temp_handle_original.seek(0)
+                suf_original = SimpleUploadedFile(image_random_name, temp_handle_original.read(), content_type=content_type)
+                self.thumbnail.save(
+                    '%s.%s' % (os.path.splitext(suf_original.name)[0], file_extension),
+                    suf_original,
                     save=False
                 )
+
+                # Create thumbnail (200x200)
+                image.thumbnail((200, 200), Image.ANTIALIAS)
+                temp_handle_thumb = StringIO()
+                image.save(temp_handle_thumb, pil_type, quality=90)
+                temp_handle_thumb.seek(0)
+                suf = SimpleUploadedFile(image_random_name, temp_handle_thumb.read(), content_type=content_type)
+                self.post_thumb.save(
+                        '%s_200x200.%s' % (os.path.splitext(suf.name)[0], file_extension),
+                        suf,
+                        save=False
+                    )
 
     def save(self, *args, **kwargs):
 
@@ -217,6 +220,9 @@ class CategoryManager(models.Manager):
     def published(self, **kwargs):
         return self.filter(is_published=True, **kwargs).order_by('published_date')
 
+    def display_on_index_page(self, **kwargs):
+        return self.filter(is_published=True, display_on_index_page=True, **kwargs).order_by('published_date')
+
 
 class Category(MPTTModel):
     name = models.CharField(
@@ -247,6 +253,7 @@ class Category(MPTTModel):
 
     published_date = models.DateField(default=timezone.now)
     is_published = models.BooleanField(default=True)
+    display_on_index_page = models.BooleanField(default=True)
 
     objects = CategoryManager()
 
@@ -266,42 +273,42 @@ class Category(MPTTModel):
     def create_resized_images(self, *args, **kwargs):
 
         if self.thumbnail.name != self.__original_image_filename:
-
             image = Image.open(StringIO(self.thumbnail.read()))
-            content_type = self.thumbnail.file.content_type
-            if content_type == 'image/jpeg':
-                pil_type = 'jpeg'
-                file_extension = 'jpg'
-            elif content_type == 'image/png':
-                pil_type = 'png'
-                file_extension = 'png'
+            if hasattr(self.thumbnail.file, 'content_type'):
+                content_type = self.thumbnail.file.content_type
+                if content_type == 'image/jpeg':
+                    pil_type = 'jpeg'
+                    file_extension = 'jpg'
+                elif content_type == 'image/png':
+                    pil_type = 'png'
+                    file_extension = 'png'
 
-            image_random_name = ''.join(random.choice(string.ascii_letters + string.digits) for n in range(12))
+                image_random_name = ''.join(random.choice(string.ascii_letters + string.digits) for n in range(12))
 
-            # Resize original image (640x1280)
-            image.thumbnail((640, 1280), Image.ANTIALIAS)
-            temp_handle_original= StringIO()
-            image.save(temp_handle_original, pil_type, quality=80)
-            temp_handle_original.seek(0)
-            suf_original = SimpleUploadedFile(image_random_name, temp_handle_original.read(), content_type=content_type)
-            self.thumbnail.save(
-                '%s.%s' % (os.path.splitext(suf_original.name)[0], file_extension),
-                suf_original,
-                save=False
-            )
-
-            # Create thumbnail (200x200)
-            image.thumbnail((200, 200), Image.ANTIALIAS)
-            temp_handle_thumb = StringIO()
-            image.save(temp_handle_thumb, pil_type, quality=90)
-            temp_handle_thumb.seek(0)
-            suf = SimpleUploadedFile(image_random_name, temp_handle_thumb.read(), content_type=content_type)
-            self.category_thumb.save(
-                    '%s_200x200.%s' % (os.path.splitext(suf.name)[0], file_extension),
-                    suf,
+                # Resize original image (640x1280)
+                image.thumbnail((640, 1280), Image.ANTIALIAS)
+                temp_handle_original= StringIO()
+                image.save(temp_handle_original, pil_type, quality=80)
+                temp_handle_original.seek(0)
+                suf_original = SimpleUploadedFile(image_random_name, temp_handle_original.read(), content_type=content_type)
+                self.thumbnail.save(
+                    '%s.%s' % (os.path.splitext(suf_original.name)[0], file_extension),
+                    suf_original,
                     save=False
                 )
-            self.__original_image_filename = self.thumbnail.name
+
+                # Create thumbnail (200x200)
+                image.thumbnail((200, 200), Image.ANTIALIAS)
+                temp_handle_thumb = StringIO()
+                image.save(temp_handle_thumb, pil_type, quality=90)
+                temp_handle_thumb.seek(0)
+                suf = SimpleUploadedFile(image_random_name, temp_handle_thumb.read(), content_type=content_type)
+                self.category_thumb.save(
+                        '%s_200x200.%s' % (os.path.splitext(suf.name)[0], file_extension),
+                        suf,
+                        save=False
+                    )
+                self.__original_image_filename = self.thumbnail.name
 
     def save(self, *args, **kwargs):
 
@@ -371,12 +378,14 @@ class PostMediaData(models.Model):
     )
 
     media_title = models.CharField(
-        u"Media item name",
+        u"Media item title",
         max_length=500,
-        blank=True
+        blank=True,
+        null=True
     )
 
     is_video = models.BooleanField(default=False)
+    is_18_plus = models.BooleanField(default=False)
 
     video_link = models.CharField(
         u"Link on video",
@@ -394,56 +403,61 @@ class PostMediaData(models.Model):
             return
 
         image = Image.open(StringIO(self.media.read()))
-        content_type = self.media.file.content_type
-        if content_type == 'image/jpeg':
-            pil_type = 'jpeg'
-            file_extension = 'jpg'
-        elif content_type == 'image/png':
-            pil_type = 'png'
-            file_extension = 'png'
+        if hasattr(self.media.file, 'content_type'):
+            content_type = self.media.file.content_type
+            if content_type == 'image/jpeg':
+                pil_type = 'jpeg'
+                file_extension = 'jpg'
+            elif content_type == 'image/png':
+                pil_type = 'png'
+                file_extension = 'png'
 
-        image_random_name = ''.join(random.choice(string.ascii_letters + string.digits) for n in range(12))
+            image_random_name = ''.join(random.choice(string.ascii_letters + string.digits) for n in range(12))
 
-        # Resize original image (1280x1280) if size > 150KB
-        image.thumbnail((1280, 1280), Image.ANTIALIAS)
-        temp_handle_original= StringIO()
-        if self.media.size > 180000:
-            image.save(temp_handle_original, pil_type, quality=90)
-        else:
-            image.save(temp_handle_original, pil_type)
-        temp_handle_original.seek(0)
-        suf_original = SimpleUploadedFile(image_random_name, temp_handle_original.read(), content_type=content_type)
-        self.media.save(
-            '%s.%s' % (os.path.splitext(suf_original.name)[0], file_extension),
-            suf_original,
-            save=False
-        )
-
-        # Create medium thumbnail (640x1280)
-        image.thumbnail((640, 1280), Image.ANTIALIAS)
-        temp_handle_medium = StringIO()
-        image.save(temp_handle_medium, pil_type, quality=80)
-        temp_handle_medium.seek(0)
-        suf_medium = SimpleUploadedFile(image_random_name, temp_handle_medium.read(), content_type=content_type)
-        self.media_medium.save(
-            '%s_640x1280.%s' % (os.path.splitext(suf_medium.name)[0], file_extension),
-            suf_medium,
-            save=False
-        )
-
-        # Create thumbnail (200x200)
-        image.thumbnail((200, 200), Image.ANTIALIAS)
-        temp_handle_thumb = StringIO()
-        image.save(temp_handle_thumb, pil_type, quality=90)
-        temp_handle_thumb.seek(0)
-        suf = SimpleUploadedFile(image_random_name, temp_handle_thumb.read(), content_type=content_type)
-        self.media_thumb.save(
-                '%s_200x200.%s' % (os.path.splitext(suf.name)[0], file_extension),
-                suf,
+            # Resize original image (1280x1280) if size > 150KB
+            image.thumbnail((1280, 1280), Image.ANTIALIAS)
+            temp_handle_original= StringIO()
+            if self.media.size > 180000:
+                image.save(temp_handle_original, pil_type, quality=90)
+            else:
+                image.save(temp_handle_original, pil_type)
+            temp_handle_original.seek(0)
+            suf_original = SimpleUploadedFile(image_random_name, temp_handle_original.read(), content_type=content_type)
+            self.media.save(
+                '%s.%s' % (os.path.splitext(suf_original.name)[0], file_extension),
+                suf_original,
                 save=False
             )
 
-        super(PostMediaData, self).save()
+            # Create medium thumbnail (640x1280)
+            image.thumbnail((640, 1280), Image.ANTIALIAS)
+            temp_handle_medium = StringIO()
+            image.save(temp_handle_medium, pil_type, quality=80)
+            temp_handle_medium.seek(0)
+            suf_medium = SimpleUploadedFile(image_random_name, temp_handle_medium.read(), content_type=content_type)
+            self.media_medium.save(
+                '%s_640x1280.%s' % (os.path.splitext(suf_medium.name)[0], file_extension),
+                suf_medium,
+                save=False
+            )
+
+            # Create thumbnail (200x200)
+            image.thumbnail((200, 200), Image.ANTIALIAS)
+            temp_handle_thumb = StringIO()
+            image.save(temp_handle_thumb, pil_type, quality=90)
+            temp_handle_thumb.seek(0)
+            suf = SimpleUploadedFile(image_random_name, temp_handle_thumb.read(), content_type=content_type)
+            self.media_thumb.save(
+                    '%s_200x200.%s' % (os.path.splitext(suf.name)[0], file_extension),
+                    suf,
+                    save=False
+                )
+
+        force_update = False
+        if self.id:
+            force_update = True
+
+        super(PostMediaData, self).save(force_update=force_update)
 
     def extension(self):
         name, extension = os.path.splitext(self.media.name)

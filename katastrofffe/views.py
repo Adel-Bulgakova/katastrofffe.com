@@ -11,7 +11,7 @@ def index_page(request):
     posts_template = render_to_string('portfolio/posts_template.html', response)
     response.update({'posts_template': posts_template})
 
-    banners = Event.objects.published().filter(is_banner=True)
+    banners = Event.objects.future_events().filter(is_banner=True)
     response.update({'banners': banners})
 
     return render(request, 'index.html', response)
@@ -22,7 +22,7 @@ def dev(request):
     posts_template = render_to_string('portfolio/posts_template.html', response)
     response.update({'posts_template': posts_template})
 
-    banners = Event.objects.published().filter(is_banner=True)
+    banners = Event.objects.future_events().filter(is_banner=True)
     response.update({'banners': banners})
 
     return render(request, 'dev.html', response)
