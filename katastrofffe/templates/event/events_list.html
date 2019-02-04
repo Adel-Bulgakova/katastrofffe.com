@@ -16,7 +16,7 @@ EVENTS
     <div class="objects-list">
         {% if future_events %}
             {% for future_event in future_events %}
-                <a href="/events/{{ event.slug }}/" class="object-container">
+                <a href="/events/{{ future_event.slug }}/" class="object-container">
                     {% if future_event.thumbnail %}
                         <img src="{{ future_event.thumbnail.url }}" alt="{{ future_event.title }}">
                     {% else %}

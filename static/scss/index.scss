@@ -69,7 +69,7 @@ header {
     top: 0;
     left: 0;
     right: 0;
-    z-index: 2;
+    z-index: 100;
     background-color: $base-bg-color;
     font-weight: 600;
     font-size: 24px;
@@ -88,11 +88,7 @@ header {
         position: relative;
         width: fit-content;
 
-        padding: 5px 5px 5px $md-padding;
-
-        &:first-child {
-            padding-left: 0;
-        }
+        padding: 5px 30px 5px 0;
     }
 }
 
@@ -360,6 +356,7 @@ header {
 }
 
 .grid-item-content {
+    position: relative;
     padding: 0 15px 40px;
 }
 
@@ -394,6 +391,59 @@ header {
 .post-thumb-video {
     display: block;
     position: relative;
+}
+
+.blur-image {
+    -webkit-filter: blur(6px);
+    filter: blur(6px);
+}
+
+.blur-content-container {
+    position: absolute;
+    top: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 5;
+    text-align: center;
+    font-family: Trade Gothic ProCyr R,sans-serif;
+    font-size: 24px;
+    letter-spacing: .089375em;
+    color: white;
+    display:table;
+}
+
+.blur-content-container-inner {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+
+    a, a:visited {
+        color: #0b354b;
+
+        &:hover, &:focus, &:active {
+            color: $base-span-color;
+        }
+    }
+}
+
+.help-text {
+    font-size: 14px;
+}
+
+.blur-container-confirm-button {
+    background-color: transparent;
+    border: 3px solid #FFFFFF;
+    border-radius: 0;
+    font-family: Trade Gothic ProCyr R, sans-serif;
+    font-size: 18px;
+    color: #FFFFFF;
+    padding: 12px;
+    cursor: pointer;
+    margin-top: 25px;
+    margin-bottom: 12.5px;
+
+    &:focus, &:active {
+        outline: none;
+    }
 }
 
 /**
@@ -558,6 +608,13 @@ textarea {
     padding: 0 50px 50px;
 }
 
+@media all and (max-width: 767px) {
+    .objects-list {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
+
 .object-title {
     margin-bottom: 12.5px;
 }
@@ -572,6 +629,23 @@ textarea {
 
     &:hover, &:focus {
 
+    }
+}
+
+@media all and (max-width: 991px) {
+    .object-container {
+        width: 50%;
+
+        &:nth-child(2n) {
+            padding-right: 0;
+       }
+    }
+}
+
+@media all and (max-width: 767px) {
+    .object-container {
+        width: 100%;
+        padding-right: 0;
     }
 }
 

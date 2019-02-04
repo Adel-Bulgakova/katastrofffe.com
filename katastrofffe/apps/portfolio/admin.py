@@ -18,7 +18,7 @@ class PostAdmin(admin.ModelAdmin):
 
     readonly_fields = ('post_thumbnail',)
     inlines = [PostMediaInline]
-    list_display = ('slug', 'title', 'category', 'published_date', 'is_published', 'show_post_detail')
+    list_display = ('slug', 'title', 'category', 'published_date', 'is_published', 'show_post_detail', 'is_18_plus')
 
 
 class CategoryAdmin(MPTTModelAdmin):

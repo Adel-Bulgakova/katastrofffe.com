@@ -8,6 +8,13 @@ from event.models import Event
 
 def index_page(request):
     response = portfolio.views.filter_posts(page_number=1)
+
+    age_confirmed = False
+    age_confirmed_cookie = request.COOKIES.get('18+')
+    if age_confirmed_cookie == 'true':
+        age_confirmed = True
+    response.update({'age_confirmed': age_confirmed})
+
     posts_template = render_to_string('portfolio/posts_template.html', response)
     response.update({'posts_template': posts_template})
 
@@ -19,6 +26,13 @@ def index_page(request):
 
 def dev(request):
     response = portfolio.views.filter_posts(page_number=1)
+
+    age_confirmed = False
+    age_confirmed_cookie = request.COOKIES.get('18+')
+    if age_confirmed_cookie == 'true':
+        age_confirmed = True
+    response.update({'age_confirmed': age_confirmed})
+
     posts_template = render_to_string('portfolio/posts_template.html', response)
     response.update({'posts_template': posts_template})
 

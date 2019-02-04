@@ -4,14 +4,12 @@ import jQuery from 'jquery';
 import 'owl.carousel';
 import 'lightgallery/src/sass/lightgallery.scss';
 import '../scss/index.scss';
-// require('vimeo-froogaloop2');
-// require('lg-video');
-// require('lightgallery');
 
 import 'vimeo-froogaloop2';
 import 'lightgallery';
 import 'lg-video';
 
+var Cookies = require( 'js-cookie' );
 var jQueryBridget = require( 'jquery-bridget' );
 var Masonry = require( 'masonry-layout' );
 var InfiniteScroll = require( 'infinite-scroll' );
@@ -39,9 +37,7 @@ function owl_carousel() {
 
     function callback(event) {
         var items_count = event.item.count;
-        console.log(items_count);
         if (items_count <= 1) {
-            this.settings.items = 1;
             this.settings.loop = false;
             this.settings.nav = false;
             this.settings.dots = false;
@@ -49,7 +45,6 @@ function owl_carousel() {
             this.settings.touchDrag = false;
             this.settings.pullDrag = false;
         } else {
-            this.settings.items = 1;
             this.settings.loop = true;
             this.settings.nav = true;
             this.settings.dots = true;
@@ -103,6 +98,7 @@ $grid.ImagesLoaded(function () {
     $grid.masonry('option', { itemSelector: '.grid-item' });
     var $items = $grid.find('.grid-item');
     $grid.masonry('appended', $items );
+    blur_content();
  });
 
 $grid.infiniteScroll({
@@ -133,14 +129,58 @@ $grid.infiniteScroll({
 
                 $(window).trigger('resize');
                 lightGallery_init();
+                blur_content();
             });
         });
     }
 });
 
+function resize_blur_container() {
+    var blur_container = $('.blur-content-container');
+    blur_container.each(function() {
+        var post_container = $(this).closest('.grid-item-content');
+        var first_image = post_container.find('img').first();
+        var post_container_width = first_image.width();
+        var post_container_height = first_image.height();
+
+        $(this).width(post_container_width).height(post_container_height);
+
+        if (post_container_width <= 300 && post_container_height < 265) {
+            $(this).find('.blur-content-container-inner').css('font-size', '16px');
+            $(this).find('.help-text').css('font-size', '12px');
+            $(this).find('.blur-container-confirm-button').css({
+                'margin-top': '12.5px',
+                'margin-bottom': '0'
+            });
+        }
+    });
+}
+
+function blur_content() {
+    var age_confirmed = Cookies.get('18+');
+    if (age_confirmed !== 'true') {
+        var blur_container = $('.blur-content-container');
+        blur_container.each(function() {
+            var post_container = $(this).closest('.grid-item-content');
+            post_container.find('img').first().addClass('blur-image');
+            post_container.find('.post-link').hide();
+        });
+
+        resize_blur_container();
+
+        $('.blur-container-confirm-button').click(function() {
+            Cookies.set('18+', 'true');
+            $('.blur-content-container').hide();
+            $('.blur-image').removeClass('blur-image');
+            $('.post-link').show();
+        });
+    }
+}
+
 $(window).resize(function () {
     $grid.masonry('reloadItems');
     $grid.masonry('layout');
+    resize_blur_container();
 });
 
 $(document).ready(function() {

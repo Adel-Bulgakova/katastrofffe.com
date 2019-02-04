@@ -9,9 +9,9 @@
                             {% for media in post_media %}
                                 <div class="owl-image-container">
                                     {% if media.media_medium %}
-                                        <img alt="{{ post.title }}" src=" {{ media.media_medium.url }}">
+                                        <img src="{{ media.media_medium.url }}" alt="{{ post.title }}">
                                     {% else %}
-                                        <img alt="{{ post.title }}" src=" {{ media.media.url }}">
+                                        <img src="{{ media.media.url }}" alt="{{ post.title }}">
                                     {% endif %}
                                 </div>
                             {% endfor %}
@@ -29,14 +29,25 @@
                             </div>
                         {% else %}
                             {% if media.media_medium %}
-                                <img src=" {{ media.media_medium.url }}" alt="{{ post.title }}" >
+                                <img src="{{ media.media_medium.url }}" alt="{{ post.title }}" >
                             {% else %}
-                                <img src=" {{ media.media.url }}" alt="{{ post.title }}" >
+                                <img src="{{ media.media.url }}" alt="{{ post.title }}" >
                             {% endif %}
                         {% endif %}
                     {% endwith %}
                 {% endif %}
             {% endwith %}
+
+            {% if post.is_18_plus and age_confirmed == False %}
+                <div class="blur-content-container">
+                    <div class="blur-content-container-inner">
+                        This content is for people over 18.<br>
+                        Please confirm your age.<br>
+                        <button class="blur-container-confirm-button">Confirm</button><br>
+                        <div class="help-text">We use cookies to help you get the best experience from our site.<br>See our  <a href="/privacy_policy/" target="_blank">privacy policy</a></div>
+                    </div>
+                </div>
+            {% endif %}
 
             {% if post.preview  %}
                 <div class="post-thumb-content">

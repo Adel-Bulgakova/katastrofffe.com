@@ -5,27 +5,56 @@
 {% block page_description %} {{ config.SITE_DESCRIPTION }} {% endblock %}
 {% block page_keywords %} {{ config.SITE_KEYWORDS }} {% endblock %}
 {% block css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'bundle/styles.css' %}" >
+    <link rel="stylesheet" type="text/css" href="{% static 'bundle/styles.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'bundle/index.css' %}" >
 
     <style>
-        .banner {
-            display: block;
-            box-sizing: border-box;
-            width: 100%;
-            margin-bottom: 25px;
-            padding: 25px;
+        .grid-item-content {
+            position: relative;
+        }
+        .blur-image {
+            -webkit-filter: blur(6px);
+            filter: blur(6px);
+        }
+        .blur-content-container {
+            position: absolute;
+            top: 0;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 5;
             text-align: center;
-            text-decoration: none;
-            color: #000;
-
-            border: 3px solid #0b354b;
+            font-family: Trade Gothic ProCyr R,sans-serif;
+            font-size: 24px;
+            letter-spacing: .089375em;
+            color: white;
+            display:table;
         }
 
-        .banner:hover{
-            border: 3px solid #eb4257;
+        .blur-content-container-inner {
+            display:table-cell;
+            vertical-align:middle;
+            text-align:center;
         }
 
+        .help-text {
+            font-size: 14px;
+        }
+
+        .blur-container-confirm-button {
+            background-color: transparent;
+            border: 3px solid #FFFFFF;
+            border-radius: 0;
+            font-family: Trade Gothic ProCyr R,sans-serif;
+            font-size: 18px;
+            color: #FFFFFF;
+            padding: 12px;
+            cursor: pointer;
+            margin-top: 25px;
+            margin-bottom: 12.5px;
+        }
+
+        .blur-container-confirm-button:focus, .blur-container-confirm-button:active {
+            outline: none;
+        }
     </style>
 {% endblock %}
 
@@ -53,7 +82,60 @@
 
     <div class="container-justified">
         <div class="grid grid-initial-state">
-            {{posts_template|safe}}
+
+            <div class="grid">
+
+                <div class="grid-item grid-item--width2">
+                    <div class="grid-item-content">
+                        <img src="https://katastrofffe.s3.amazonaws.com/media/posts_media/medium/HMochXEhuHqr_640x1280.jpg" alt="exotic siberia by katastrofffe">
+                        <div class="blur-content-container">
+                            <div class="blur-content-container-inner">
+                                This content is for people over 18.<br>
+                                Please confirm your age.<br>
+                                <button class="blur-container-confirm-button">Confirm</button><br>
+                                <span class="help-text">We use cookies to help you get the best experience from our site.<br>See our  <a href="/privacy_policy/" target="_blank">privacy policy</a></span>
+                            </div>
+                        </div>
+                        <div class="post-thumb-content">
+                            <span>exotic siberia series</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid-item grid-item--width2">
+                    <div class="grid-item-content">
+                        <div class="owl-carousel-container">
+                            <div class="owl-carousel owl-theme">
+                                <div class="owl-image-container">
+                                    <img src="https://katastrofffe.s3.amazonaws.com/media/posts_media/medium/V5GFleeEwKgb_640x1280.jpg">
+                                </div>
+
+                                <div class="owl-image-container">
+                                    <img src="https://katastrofffe.s3.amazonaws.com/media/posts_media/medium/VFBVCz82aLHW_640x1280.jpg">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="blur-content-container">
+                            <div class="blur-content-container-inner">
+                                This content is for people over 18.<br>
+                                Please confirm your age.<br>
+                                <button class="blur-container-confirm-button">Confirm</button><br>
+                                <span class="help-text">We use cookies to help you get the best experience from our site.<br>See our  <a href="/privacy_policy/" target="_blank">privacy policy</a></span>
+                            </div>
+                        </div>
+                        <div class="post-thumb-details">
+                            <div class="post-tags">
+                                <span><a href="/portfolio/filter/tag/blackandwhite/" class="tag-link">blackandwhite</a></span>
+                                <span><a href="/portfolio/filter/tag/exoticsiberia/" class="tag-link">exoticsiberia</a></span>
+                            </div>
+                            <a href="/portfolio/black-and-white/exotic_sib/" class="post-link">Read more</a>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
         </div>
         <div class="grid-load-status">
             <p class="infinite-scroll-request">Loading...</p>
@@ -65,7 +147,7 @@
 
 {% block scripts %}
     <script>
-        var pages_count = {{pages_count}};
+        var pages_count = 0;
     </script>
     <script src="{% static 'bundle/dev.bundle.js' %}"></script>
 {% endblock %}
