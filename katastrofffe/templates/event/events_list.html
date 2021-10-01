@@ -13,7 +13,7 @@ EVENTS
 
 {% block content %}
 <div class="container-justified">
-    <div class="objects-list">
+    <div class="objects-list events-list">
         {% if future_events %}
             {% for future_event in future_events %}
                 <a href="/events/{{ future_event.slug }}/" class="object-container">
@@ -36,7 +36,7 @@ EVENTS
                 <h2>PAST EVENTS</h2>
             </div>
 
-            <div class="objects-list">
+            <div class="objects-list events-list">
                 {% for past_event in past_events %}
                     <a href="/events/{{ past_event.slug }}/" class="object-container">
                         {% if past_event.thumbnail %}

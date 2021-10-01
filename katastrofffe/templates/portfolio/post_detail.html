@@ -56,7 +56,7 @@
                 <h1 class="post-title">{{ post.title }}</h1>
                 {% if post.content %}
                 <div class="post-description">
-                    {{ post.content }}
+                    {{ post.content | safe }}
                 </div>
                 {% endif %}
 

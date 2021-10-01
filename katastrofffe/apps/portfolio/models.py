@@ -230,6 +230,12 @@ class Category(MPTTModel):
         unique=True
     )
 
+    description = models.TextField(u"Category description",
+        blank=True,
+        null=True,
+        default=""
+    )
+
     parent = TreeForeignKey(
         'self',
         null=True,

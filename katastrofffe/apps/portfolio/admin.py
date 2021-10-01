@@ -22,7 +22,7 @@ class PostAdmin(admin.ModelAdmin):
 
 
 class CategoryAdmin(MPTTModelAdmin):
-    fields = ('category_thumbnail', 'thumbnail', 'name', 'parent', 'slug', 'published_date', 'is_published', 'display_on_index_page')
+    fields = ('category_thumbnail', 'thumbnail', 'name', 'description', 'parent', 'slug', 'published_date', 'is_published', 'display_on_index_page')
     readonly_fields = ('category_thumbnail',)
     list_display = ('slug', 'name', 'published_date', 'is_published', 'display_on_index_page')
 

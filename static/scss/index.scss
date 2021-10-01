@@ -73,9 +73,14 @@ header {
     background-color: $base-bg-color;
     font-weight: 600;
     font-size: 24px;
+
     a {
        color: $nav-a-color;
     }
+}
+
+.navigation-container {
+    position: relative;
 }
 
 .navigation {
@@ -85,10 +90,23 @@ header {
 
     .menu-item {
         display: inline-block;
+        vertical-align: top;
         position: relative;
         width: fit-content;
 
         padding: 5px 30px 5px 0;
+
+        @media all and (max-width: 1150px) {
+            padding-right: 20px;
+        }
+    }
+
+    .split-link-title {
+        width: 90px;
+
+        a > .base-span {
+            top: unset;
+        }
     }
 }
 
@@ -126,7 +144,6 @@ header {
     transform: translate3d(.2em,.2em,0)
 }
 
-
 /**
  * Header
  */
@@ -147,15 +164,38 @@ header {
     }
 }
 
-.instagram-icon {
+.social-icons-block {
     display: block;
     position: absolute;
+    top: 25px;
     right: 50px;
-    top: 32.2px;
-    width: 25px;
-    height: 25px;
 }
 
+@media all and (max-width: 767px) {
+    .social-icons-block {
+        right: 10px;
+    }
+}
+
+.social-icon-cell {
+    display: inline-block;
+    height: auto;
+    vertical-align: middle;
+}
+
+.social-icon-cell > a {
+    font-size: 18px;
+}
+
+.social-icon-cell > img {
+    margin-bottom: 0;
+}
+
+.social-icon {
+    display: block;
+    height: 25px;
+    width: 25px;
+}
 
 .banner {
     display: block;
@@ -176,6 +216,7 @@ header {
 .page-title {
     padding: 117px 0 $md-padding;
     text-align: center;
+
     h1 {
         font-size: 16px;
         font-weight: normal;
@@ -185,6 +226,18 @@ header {
 
 .page-subtitle {
     padding: 0 50px 50px;
+}
+
+@media all and (max-width: 1200px) {
+    header {
+        position: static;
+        width: 100%;
+    }
+
+    .page-title {
+        padding-top: $md-padding;
+        text-align: center;
+    }
 }
 
 @media all and (max-width: 991px) {
@@ -223,9 +276,15 @@ header {
         padding-left: 10px;
         padding-right: 10px;
     }
+}
 
-    .instagram-icon {
-        right: 10px;
+@media all and (max-width: 370px) {
+    .navigation {
+        padding-top: 100px;
+    }
+
+    .social-icons-block {
+        top: 65px;
     }
 }
 
@@ -234,7 +293,7 @@ header {
  */
 .categories-navigation {
     overflow: auto;
-    padding: 80px 50px 25px;
+    padding: 150px 50px 25px;
     font-family: Trade Gothic ProCyr R, sans-serif;
     font-size: 18px;
     text-align: left;
@@ -255,20 +314,21 @@ header {
     }
 }
 
-@media all and (max-width: 991px) {
+@media all and (max-width: 1200px) {
     .categories-navigation {
-        padding-top: 15px;
+        padding-top: 25px;
+    }
+}
 
-        .categories-navigation-inner {
-            width: 100%;
-            float: right;
-        }
+@media all and (max-width: 991px) {
+    .categories-navigation > .categories-navigation-inner {
+        width: 100%;
+        float: right;
     }
 }
 
 @media all and (max-width: 767px) {
     .categories-navigation {
-        padding-top: 15px;
         padding-left: 10px;
         padding-right: 10px;
     }
@@ -490,7 +550,6 @@ header {
     }
 }
 
-
 @media all and (max-width: 991px) {
     .post-container {
         display: block;
@@ -535,7 +594,7 @@ input[type="email"], textarea {
     &:focus {
       outline-color: #9C9C9C;
     }
-  }
+}
 
 textarea {
     height: auto;
@@ -596,7 +655,6 @@ textarea {
 /**
  * Events, categories list
  */
-
 .objects-list {
     display: -webkit-flex;
     -webkit-align-items: flex-start;
@@ -647,6 +705,12 @@ textarea {
         width: 100%;
         padding-right: 0;
     }
+
+    .events-list {
+       img {
+           display: none;
+       }
+    }
 }
 
 .event-dates {
@@ -659,7 +723,6 @@ textarea {
 /**
  * Owl
  */
-
 .owl-carousel .owl-nav.disabled {
     display: block !important;
 }

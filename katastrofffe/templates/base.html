@@ -48,7 +48,7 @@
 <body class="{% block body_class_name %}index{% endblock %}">
 <header>
     <div class="container-justified">
-        <div class="navigation">
+        <div class="navigation navigation-container">
             <div class="menu-item">
                 <a href="/about/" class="nav-link">
                     <span class="base-span">About</span><span class="double-span">About</span>
@@ -59,12 +59,12 @@
                 </a>
             </div><div class="menu-item">
                 <a href="/events/" class="nav-link">
-                    <span class="base-span">Events</span><span class="double-span">Events</span>
+                    <span class="base-span">Exhibitions</span><span class="double-span">Exhibitions</span>
                 </a>
             </div>
-            <div class="menu-item">
+            <div class="menu-item split-link-title">
                 <a href="https://shop.katastrofffe.com/" class="nav-link">
-                    <span class="base-span">Shop</span><span class="double-span">Shop</span>
+                    <span class="base-span">T-shirts and prints</span><span class="double-span">T-shirts and prints</span>
                 </a>
             </div>
 	    </div>
@@ -75,7 +75,14 @@
             </a>
             </div>
         </div>
-        <a href="https://www.instagram.com/katastrofffe/" class="instagram-icon" title="Follow on instagram"><img src="{% static 'images/instagram-icon.svg' %}" alt="instagram"></a>
+        <div class="social-icons-block">
+            <div class="social-icon-cell">
+                <a href="https://www.onlyfans.com/katastrofffe/" class="nav-link" title="Follow on onlyfans" target="_blank"><span class="base-span">Follow on onlyfans</span><span class="double-span">Follow on onlyfans</span></a>
+            </div>
+            <div class="social-icon-cell">
+                 <a href="https://www.instagram.com/{{ config.INSTAGRAM }}/" class="social-icon" title="Follow on instagram" target="_blank"><img src="{% static 'images/instagram-icon.svg' %}" alt="instagram"></a>
+            </div>
+        </div>
     </div>
 </header>
 {% block page_title_container %}

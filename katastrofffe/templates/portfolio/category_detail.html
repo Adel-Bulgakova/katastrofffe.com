@@ -21,6 +21,11 @@
         <div class="container-justified">
             <div class="page-title" style="padding: 25px 0"><h1>{{category.name}}{% if category.children.all %}->{% for i in category.children.all %}<a href="{{ i.slug }}/"> {{ i.name }} </a><br>{% endfor %}{% endif %}<br><br>{% if not posts %}No posts in category: {{ category.name }}{% endif %}</h1></div>
         </div>
+        <div class="container">
+            <div class="text-left text-container">
+                {{category.description}}
+            </div>
+        </div>
     {% endblock %}
     {% endif %}
 

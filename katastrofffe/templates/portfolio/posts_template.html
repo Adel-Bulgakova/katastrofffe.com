@@ -51,7 +51,7 @@
 
             {% if post.preview  %}
                 <div class="post-thumb-content">
-                    <span>{{ post.preview }}</span>
+                    <span>{{ post.preview | safe }}</span>
                 </div>
             {% endif %}
 
