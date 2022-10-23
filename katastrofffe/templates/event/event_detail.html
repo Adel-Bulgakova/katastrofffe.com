@@ -92,12 +92,12 @@
 
             <div class="objects-list">
                 {% for other_event in other_events %}
-                    <a href="/events/{{ other_event.slug }}/" class="object-container">
-                        {% if other_event.thumbnail %}
-                            <img src="{{ other_event.thumbnail.url }}" alt="{{ other_event.title }}">
-                        {% else %}
-                            <img src="{{ request.scheme }}://{{ request.get_host }}{% static 'images/wgjeru8LGrRW.jpg' %}" alt="{{ other_event.title }}">
-                        {% endif %}
+                    <a href="/events/{{ other_event.slug }}/" class="object-container events-list">
+<!--                        {% if other_event.thumbnail %}-->
+<!--                            <img src="{{ other_event.thumbnail.url }}" alt="{{ other_event.title }}">-->
+<!--                        {% else %}-->
+<!--                            <img src="{{ request.scheme }}://{{ request.get_host }}{% static 'images/wgjeru8LGrRW.jpg' %}" alt="{{ other_event.title }}">-->
+<!--                        {% endif %}-->
                         <div class="object-title">{{ other_event.title }}</div>
                         <div class="event-dates">{{ other_event.start_date }} - {{ other_event.end_date }}</div>
                     </a>

@@ -17,11 +17,11 @@ EVENTS
         {% if future_events %}
             {% for future_event in future_events %}
                 <a href="/events/{{ future_event.slug }}/" class="object-container">
-                    {% if future_event.thumbnail %}
-                        <img src="{{ future_event.thumbnail.url }}" alt="{{ future_event.title }}">
-                    {% else %}
-                        <img src="{{ request.scheme }}://{{ request.get_host }}{% static 'images/wgjeru8LGrRW.jpg' %}" alt="{{ future_event.title }}">
-                    {% endif %}
+<!--                    {% if future_event.thumbnail %}-->
+<!--                        <img src="{{ future_event.thumbnail.url }}" alt="{{ future_event.title }}">-->
+<!--                    {% else %}-->
+<!--                        <img src="{{ request.scheme }}://{{ request.get_host }}{% static 'images/wgjeru8LGrRW.jpg' %}" alt="{{ future_event.title }}">-->
+<!--                    {% endif %}-->
                     <div class="object-title">{{ future_event.title }}</div>
                     <div class="event-dates">{{ future_event.start_date }} - {{ future_event.end_date }}</div>
                 </a>
@@ -39,11 +39,11 @@ EVENTS
             <div class="objects-list events-list">
                 {% for past_event in past_events %}
                     <a href="/events/{{ past_event.slug }}/" class="object-container">
-                        {% if past_event.thumbnail %}
-                            <img src="{{ past_event.thumbnail.url }}" alt="{{ past_event.title }}">
-                        {% else %}
-                            <img src="{{ request.scheme }}://{{ request.get_host }}{% static 'images/wgjeru8LGrRW.jpg' %}" alt="{{ past_event.title }}">
-                        {% endif %}
+<!--                        {% if past_event.thumbnail %}-->
+<!--                            <img src="{{ past_event.thumbnail.url }}" alt="{{ past_event.title }}">-->
+<!--                        {% else %}-->
+<!--                            <img src="{{ request.scheme }}://{{ request.get_host }}{% static 'images/wgjeru8LGrRW.jpg' %}" alt="{{ past_event.title }}">-->
+<!--                        {% endif %}-->
                         <div class="object-title">{{ past_event.title }}</div>
                         <div class="event-dates">{{ past_event.start_date }} - {{ past_event.end_date }}</div>
                     </a>

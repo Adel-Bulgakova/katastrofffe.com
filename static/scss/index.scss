@@ -550,6 +550,18 @@ header {
     }
 }
 
+#about-container {
+    .post-media {
+        width: 30%;
+    }
+
+    .post-content {
+        width: 70%;
+        position: relative;
+        line-height: 1.5;
+    }
+}
+
 @media all and (max-width: 991px) {
     .post-container {
         display: block;
@@ -690,6 +702,12 @@ textarea {
     }
 }
 
+.events-list .object-container {
+    width: 100%;
+    padding-right: 0;
+    margin-bottom: 50px;
+}
+
 @media all and (max-width: 991px) {
     .object-container {
         width: 50%;
@@ -697,6 +715,10 @@ textarea {
         &:nth-child(2n) {
             padding-right: 0;
        }
+    }
+
+    .events-list .object-container {
+        width: 100%;
     }
 }
 
